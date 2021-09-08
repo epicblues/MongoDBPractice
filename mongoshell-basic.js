@@ -23,7 +23,7 @@ db.startup_log.stats();
 // use mydb
 
 // 선택 데이터베이스 확인
-db
+
 
 // title이 First Post인 문서를 삽입
 db.posts.insert({
@@ -202,4 +202,18 @@ db.posts.find().limit(2).skip(2)
 //	1: 오름차순, -1: 내림차순
 
 // likes의 역순으로 정렬
-db.posts.find().sort({ likes: -1 })
+db.posts.find().sort({ likes: -1 });
+
+tra.find({
+    tags: {
+        $elemMatch: ['news']
+    }
+})
+  
+tra.find({
+    user: {
+        $elemMatch: {
+            name : "John Doe"
+        }
+    }
+})
