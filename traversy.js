@@ -1,3 +1,7 @@
+
+
+
+
 db.posts.insert({
     title: 'Post One',
     body: 'Body of post one',

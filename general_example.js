@@ -1,4 +1,4 @@
-const Ticker = require('./modules/ticker');
+const Ticker = require('./modules/ticker2');
 
 let count = 0;
 process.on("tick", function () {
