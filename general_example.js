@@ -12,4 +12,5 @@ process.on("tick", function () {
 })
 
 let ticker = new Ticker(process);
+// ticker.js 모듈의 tick_target = generam_example모듈의 process 객체.
 ticker.start();
