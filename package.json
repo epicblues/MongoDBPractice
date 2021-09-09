@@ -5,7 +5,7 @@
   "main": "general_example.js",
   "scripts": {
     "test": "nodemon app.js",
-    "dev": "node app.js"
+    "dev": "nodemon app.js"
   },
   "repository": {
     "type": "git",

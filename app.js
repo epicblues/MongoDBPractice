@@ -30,6 +30,7 @@ app.use(express.static(__dirname + '/public'));
 // 응답 객체의 상태 메시지의 자체적인 변경을 막는다?
 app.set("etag", false);
 
+const {MongoClient} = require('mongodb');
 
 
 
@@ -90,8 +91,35 @@ app.get('/', (req, res) => {
     
 })
 
-// 서버 start
-http.createServer(app).listen(app.get('port'), () => {
-    console.log('Web Server is running on port : ', app.get('port'));
-})
+
+function startServer() {
+    // database 연결 정보
+    const dbUrl = 'mongodb://localhost:27017'
+    // database 연결
+    MongoClient.connect(dbUrl,{useNewUrlParser : true})
+    .then(client => {
+        // db 선택
+        console.log('데이터베이스에 연결되었습니다.');
+        // 선택된 db를 express에 추가
+        let db = client.db('mydb');
+        // 익스프레스에 추가
+        app.set("db", db); // db 키로 몽고 db 객체 추가 필요할 때 가져올 수 있다.
+        // 서버 start
+        startExpress();
+
+    })
+    .catch(reason => {
+        console.error(reason);
+    })
+}
+startServer();
+
+function startExpress() {
+    http.createServer(app).listen(app.get('port'), () => {
+        console.log('Web Server is running on port : ', app.get('port'));
+    })
+}
+
+
+console.log('end of main()');
 
