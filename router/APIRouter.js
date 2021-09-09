@@ -14,6 +14,19 @@ function APIRouter(app) {
         })
     })
 
+    router.get("/friends/:filename", (req,res) => {
+        let id= req.params.filename.split('.')[0];
+        let db= app.get('db');
+        db.collection('friends').findOne({_id : ObjectId(id)})
+        .then(result => {
+            res.status(200)
+            .header("Content-Type", "text/json; charset=utf-8")
+            .json(result)
+        })
+
+    })
+
+
     return router;
 } 
 

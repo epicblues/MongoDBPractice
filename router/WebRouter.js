@@ -78,5 +78,42 @@ module.exports = (app) => {
 
     })
 
+    // 사용자 정보 수정
+    router.get("/friends/modify/:id", (req,res) => {
+        const id=req.params.id;
+        const db=app.get('db');
+        db.collection('friends').findOne({_id : ObjectId(id)})
+        .then(result => {
+            res.render('friend_update_form', {friend:result});
+        })
+        .catch(console.error);
+    })
+    // 사용자 정보 수정 전송 폼
+    router.post("/friends/update", (req,res) => {
+        // 폼 정보는 req.body로 넘어온다. (모두 문자열으로 넘어오는 것 주의);
+        const id = req.body.id;
+        const name = req.body.name;
+        const species = req.body.species;
+        const age = parseInt(req.body.age);
+
+        const db = app.get('db');
+        db.collection('friends').updateOne({_id : ObjectId(id)}, {$set : {name,species,age}})
+        .then(result => {
+            console.log(result);
+            res.status(200)
+            .redirect("/web/friends");
+        })
+        .catch(reason => {
+            console.error(reason);
+            res.status(500) // Internal Server Error
+                .send("ERROR : 친구를 추가하지 못했습니다.");
+        })
+        
+    })
+
+
+
+
+
     return router;
 }

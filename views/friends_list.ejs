@@ -50,7 +50,7 @@
               <td><%= friend.species %></td>
               <td><%= friend.age %></td>
               <td>
-                <a href="#" class="btn btn-primary btn-sm">수정</a> 
+                <a href="/web/friends/modify/<%= friend._id %>" class="btn btn-primary btn-sm">수정</a> 
 
                   <button 
                   onclick='confirm_Delete("<%= friend._id %>")' class="btn btn-danger btn-sm">삭제</button>
