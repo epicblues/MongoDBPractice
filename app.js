@@ -24,6 +24,12 @@ const logger = require('morgan');  // 로거 불러오기
 app.use(logger("dev"));
 app.use(express.static(__dirname + '/public'));
 
+//body-parser 등록
+//4.16
+//Post 방식 요청 처리 가능.
+app.use(express.urlencoded({extended: false}));
+
+
 // GET 메서드 : 요청의 처리
 // app.get(url, callback)
 
@@ -74,7 +80,7 @@ app.get('/urlparam/:booya', (req,res) => {
 // 뷰엔진 활용
 app.set("view engine", "ejs");
 // 응답 객체의 render 메서드 활용
-app.set('views', __dirname + "/template");
+app.set('views', __dirname + "/views");
 
 app.get('/render', (req, res) => {
     res.status(200)
@@ -91,6 +97,13 @@ app.get('/', (req, res) => {
     
 })
 
+// 라우터 등록(미들웨어)
+const webRouter = require('./router/WebRouter')(app);
+const apiRouter = require('./router/APIRouter')(app);
+app.use("/web",webRouter);
+app.use("/api",apiRouter);
+
+
 
 function startServer() {
     // database 연결 정보
@@ -102,6 +115,7 @@ function startServer() {
         console.log('데이터베이스에 연결되었습니다.');
         // 선택된 db를 express에 추가
         let db = client.db('mydb');
+        
         // 익스프레스에 추가
         app.set("db", db); // db 키로 몽고 db 객체 추가 필요할 때 가져올 수 있다.
         // 서버 start
