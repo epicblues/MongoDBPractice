@@ -26,6 +26,7 @@ function  testFindOne() {
 function testFindAll() {
     client.connect().then(client => {
         const db= client.db('mydb');
+        
         db.collection('friends').find({age:{$gt : 14}}).toArray()
         .then(array => {
             array.forEach((...abc) => {
